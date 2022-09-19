@@ -42,16 +42,16 @@ class Http:
         self._finders = finders
 
         self._tokens = set()
-        self._downloaded_blocks = dict()
-        self._stream_debounce = dict()
-        self._stream_transports = dict()
+        self._downloaded_blocks = {}
+        self._stream_debounce = {}
+        self._stream_transports = {}
 
     def set_on_stream_closed_handler(self, handler: OnStreamClosed):
         self._on_stream_closed = handler
 
     async def start(self):
         app = web.Application()
-        app.router.add_static("/static/", os.path.dirname(__file__) + "/static/")
+        app.router.add_static("/static/", f"{os.path.dirname(__file__)}/static/")
         app.router.add_get("/stream/{message_id}/{token}", self._stream_handler)
         app.router.add_options("/stream/{message_id}/{token}", self._upnp_discovery_handler)
         app.router.add_put("/stream/{message_id}/{token}", self._upnp_discovery_handler)
@@ -201,7 +201,7 @@ class Http:
             return Response(status=500)
 
         try:
-            message = await self._mtproto.get_message(int(message_id))
+            message = await self._mtproto.get_message(message_id)
         except ValueError:
             return Response(status=404)
 

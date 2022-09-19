@@ -134,11 +134,7 @@ def parse_http_range(http_range: str, block_size: int) -> typing.Tuple[int, int,
 
     max_size = matches.group(2)
 
-    if max_size and max_size.isdigit():
-        max_size = int(max_size)
-    else:
-        max_size = None
-
+    max_size = int(max_size) if max_size and max_size.isdigit() else None
     offset = int(offset)
     safe_offset = (offset // block_size) * block_size
     data_to_skip = offset - safe_offset

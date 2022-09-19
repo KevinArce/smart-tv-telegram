@@ -96,19 +96,16 @@ def _player_status(data: bytes) -> UpnpPlayerStatus:
         if event.tag == _STATUS_TAG:
             status = event.get("val")
 
-            if status == "OK":
-                reach_ok = True
-
-            if status == "STOPPED":
-                return UpnpPlayerStatus.STOPPED
-
             if status == "ERROR_OCCURRED":
                 return UpnpPlayerStatus.ERROR
 
-    if reach_ok:
-        return UpnpPlayerStatus.PLAYING
+            elif status == "OK":
+                reach_ok = True
 
-    return UpnpPlayerStatus.NOTHING
+            elif status == "STOPPED":
+                return UpnpPlayerStatus.STOPPED
+
+    return UpnpPlayerStatus.PLAYING if reach_ok else UpnpPlayerStatus.NOTHING
 
 
 class DeviceStatus:
@@ -126,7 +123,7 @@ class UpnpNotifyServer(RequestHandler):
     _devices: typing.Dict[int, DeviceStatus]
 
     def __init__(self):
-        self._devices = dict()
+        self._devices = {}
 
     def add_device(self, device: DeviceStatus, local_token: int):
         self._devices[local_token] = device
