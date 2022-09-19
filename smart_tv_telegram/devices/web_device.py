@@ -125,7 +125,7 @@ class WebDeviceFinder(DeviceFinder):
     _devices: typing.Dict[WebDevice, AsyncDebounce]
 
     def __init__(self):
-        self._devices = dict()
+        self._devices = {}
 
     async def find(self, config: Config) -> typing.List[Device]:
         return list(self._devices.keys())
