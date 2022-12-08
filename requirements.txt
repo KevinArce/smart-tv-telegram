@@ -5,7 +5,7 @@ async-timeout==3.0.1
 async-upnp-client==0.15.0
 attrs==20.3.0
 casttube==0.2.1
-certifi==2020.12.5
+certifi==2022.12.7
 chardet==4.0.0
 defusedxml==0.7.1
 idna==2.10
